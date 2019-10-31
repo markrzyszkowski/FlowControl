@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <title th:inline="text">[[${@applicationName}]] | Report</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link th:href="@{/css/report.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="report">
+    <h2 th:inline="text">[[${report.name}]] [[${report.surname}]]</h2>
+    <h3 th:inline="text">Employee #[[${report.employeeId}]]</h3>
+    <h3 th:inline="text">Report for period: [[${report.period}]]</h3>
+    <hr>
+    <div th:inline="text">Hours worked: [[${report.hours}]]</div>
+    <br>
+    <div>Includes:</div>
+    <div th:inline="text">[[${report.overtime}]] hours of overtime ([[${report.overtimeRatio}]]x normal pay)</div>
+    <div th:inline="text">[[${report.weekends}]] hours during weekends ([[${report.weekendsRatio}]]x normal pay)</div>
+    <div th:inline="text">[[${report.holidays}]] hours during holidays ([[${report.holidaysRatio}]]x normal pay)</div>
+    <br>
+    <div th:inline="text">Calculated salary (with [[${report.basePay}]] of base hourly pay): <b>[[${report.calculatedSalary}]]</b></div>
+</div>
+</body>
+</html>

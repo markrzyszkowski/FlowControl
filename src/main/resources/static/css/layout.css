@@ -1,0 +1,148 @@
+body {
+    margin: 0;
+    padding-top: 85px;
+    padding-bottom: 85px;
+}
+
+.hidden {
+    display: none;
+}
+
+.navbar-brand {
+    user-select: none;
+}
+
+.navbar .navbar-nav .nav-item .dropdown-item:active {
+    background: #343a40;
+}
+
+.content {
+    margin: 20px auto 35px;
+}
+
+.actions {
+    max-width: 400px;
+    margin: 20px auto 50px;
+}
+
+.btn-action {
+    margin: 0 auto 20px;
+    border-radius: 48px;
+}
+
+.card {
+    border-radius: 15px;
+}
+
+.card-header {
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+}
+
+.form-control {
+    border-radius: 38px;
+}
+
+textarea.form-control {
+    border-radius: 19px;
+}
+
+.btn-nav {
+    margin: 20px 25px;
+    padding: 6px 32px;
+}
+
+td.cell {
+    vertical-align: middle;
+    text-align: center;
+    font-weight: 500;
+}
+
+td.cell img {
+    height: 24px;
+}
+
+.btn-circle {
+    text-align: center;
+    padding: 0;
+    border-radius: 50%;
+}
+
+.btn-notification {
+    position: fixed;
+    height: 45px;
+    width: 45px;
+    bottom: 25px;
+    right: 25px;
+    z-index: 1030;
+    line-height: 45px;
+    transition: all 0.75s;
+}
+
+.btn-notification-active {
+    right: 325px;
+}
+
+.notification {
+    height: 25px;
+    margin-bottom: 7px;
+    filter: invert(1);
+    transition: all 0.75s;
+}
+
+.has-notifications {
+    filter: invert(1) sepia(1) saturate(100) hue-rotate(-45deg);
+}
+
+.notification-sidebar {
+    position: fixed;
+    height: 100%;
+    width: 300px;
+    top: 56px;
+    right: -500px;
+    z-index: 1030;
+    background-color: #343a40;
+    transition: all 0.75s;
+}
+
+.notification-sidebar-active {
+    right: 0;
+    transition: all 0.75s;
+}
+
+.notification-sidebar h4 {
+    color: white;
+    text-align: center;
+}
+
+.notification-box {
+    margin: 15px;
+    padding: 15px;
+    color: white;
+    background-color: #222;
+    border-radius: 25px;
+    user-select: none;
+}
+
+.notification-box-table {
+    width: 100%
+}
+
+.notification-box-text {
+    max-width: 212px;
+}
+
+.notification-box-dismiss {
+    width: 24px;
+}
+
+.btn-notification-dismiss {
+    height: 24px;
+    width: 24px;
+    line-height: 24px;
+}
+
+.notification-dismiss {
+    height: 14px;
+    margin-bottom: 5px;
+}

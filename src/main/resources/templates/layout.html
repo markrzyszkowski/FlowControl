@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <title>Layout</title>
+</head>
+<body>
+<div th:fragment="header">
+    <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
+        <span th:inline="text" class="navbar-brand">
+            [[${@applicationName}]]
+        </span>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav">
+                <li class="nav-item" th:classappend="${#httpServletRequest.getServletPath().startsWith('/dashboard')} ? active">
+                    <a th:href="@{/dashboard}" class="nav-link">Dashboard</a>
+                </li>
+                <li class="nav-item" th:classappend="${#httpServletRequest.getServletPath().startsWith('/management')} ? active" sec:authorize="hasAuthority('ACCESS_MANAGEMENT_PANEL')">
+                    <a th:href="@{/management}" class="nav-link">Management</a>
+                </li>
+                <li class="nav-item" th:classappend="${#httpServletRequest.getServletPath().startsWith('/administration')} ? active" sec:authorize="hasAuthority('ACCESS_ADMIN_PANEL')">
+                    <a th:href="@{/administration}" class="nav-link">Administration</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a sec:authentication="name" href="" class="nav-link dropdown-toggle" data-toggle="dropdown"></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a th:href="@{/logout}" class="dropdown-item">
+                            Log out
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <button type="button" class="btn btn-dark btn-circle btn-notification">
+        <img th:src="@{/images/notification.svg}" class="notification" th:classappend="${@notificationService.hasNotifications(#authentication.getPrincipal().getUsername())} ? has-notifications" alt="notifications">
+    </button>
+    <div class="notification-sidebar">
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <h4>Notifications</h4>
+        <div th:each="notification : ${@notificationService.getUserNotifications(#authentication.getPrincipal().getUsername())}">
+            <div class="notification-box" th:id="${notification.id}">
+                <table class="notification-box-table">
+                    <tbody>
+                    <tr>
+                        <td class="notification-box-text" th:inline="text">
+                            [[${notification.text}]]
+                        </td>
+                        <td class="notification-box-dismiss">
+                            <button type="button" class="btn btn-light btn-circle btn-notification-dismiss">
+                                <img th:src="@{/images/delete.svg}" class="notification-dismiss" alt="dismiss">
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div th:fragment="javascript">
+    <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/layout.js}"></script>
+</div>
+</body>
+</html>

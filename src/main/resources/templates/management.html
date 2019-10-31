@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title th:inline="text">[[${@applicationName}]] | Management</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/layout.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div th:replace="layout :: header">
+    NAVBAR PLACEHOLDER
+</div>
+<div class="container">
+    <div class="content actions">
+        <a th:href="@{/management/employees}" class="btn btn-dark btn-lg btn-block btn-action">Browse employees</a>
+        <a th:href="@{/management/employees/add}" class="btn btn-dark btn-lg btn-block btn-action">Add employees</a>
+    </div>
+</div>
+<div th:replace="layout :: javascript">
+    JAVASCRIPT PLACEHOLDER
+</div>
+</body>
+</html>

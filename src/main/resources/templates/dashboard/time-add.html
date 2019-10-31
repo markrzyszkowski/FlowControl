@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <title th:inline="text">[[${@applicationName}]] | Time</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/layout.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div th:replace="layout :: header">
+    NAVBAR PLACEHOLDER
+</div>
+<div class="container">
+    <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        Time card successfully added
+        <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+    </div>
+    <div class="content">
+        <div class="card">
+            <h4 class="card-header text-center">Add time card</h4>
+            <div class="card-body">
+                <form th:action="@{/dashboard/time/add}" th:object="${timeCard}" method="post" id="add">
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" th:field="*{date}" class="form-control" th:classappend="${#fields.hasErrors('date')} ? 'is-invalid'" id="date">
+                        <div th:if="${#fields.errors('date')}" th:errors="*{date}" class="invalid-feedback">
+                            Date error
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="hours">Hours</label>
+                        <input type="number" th:field="*{hours}" class="form-control" th:classappend="${#fields.hasErrors('hours')} ? 'is-invalid'" id="hours">
+                        <div th:if="${#fields.errors('hours')}" th:errors="*{hours}" class="invalid-feedback">
+                            Hours error
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="overtime">Overtime</label>
+                        <input type="number" th:field="*{overtime}" class="form-control" id="overtime">
+                        <div class="hidden" id="overtimeError">
+                            Number of overtime hours cannot exceed that of regular hours
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" th:field="*{holiday}" class="form-check-input" id="holiday">
+                        <label for="holiday" class="form-check-label">Holiday</label>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-nav">Add</button>
+                        <a th:href="@{/dashboard}" class="btn btn-secondary btn-nav">Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="layout :: javascript">
+    JAVASCRIPT PLACEHOLDER
+</div>
+<script th:src="@{/js/time-add.js}"></script>
+</body>
+</html>

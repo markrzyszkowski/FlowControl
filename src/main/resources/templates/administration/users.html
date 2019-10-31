@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title th:inline="text">[[${@applicationName}]] | Administration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/layout.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div th:replace="layout :: header">
+    NAVBAR PLACEHOLDER
+</div>
+<div class="container">
+    <div class="content">
+        <table class="table">
+            <thead class="text-center">
+            <tr>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.getUsername()}" class="cell"></td>
+                <td th:text="${user.getRole()}" class="cell"></td>
+                <td class="cell">
+                    <a th:href="@{/administration/users/delete/{id}(id=${user.id})}">
+                        <img th:src="@{/images/delete.svg}" alt="delete">
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="text-center">
+            <a th:href="@{/administration/users(page=${users.getNumber()},size=${param.size})}" class="btn btn-primary btn-nav" th:classappend="${users.isFirst()} ? hidden">
+                <<<
+            </a>
+            <a th:href="@{/administration/users(page=${users.getNumber() + 2},size=${param.size})}" class="btn btn-primary btn-nav" th:classappend="${users.isLast()} ? hidden">
+                >>>
+            </a>
+        </div>
+        <div class="text-center">
+            <a th:href="@{/administration}" class="btn btn-secondary btn-nav">Back</a>
+        </div>
+    </div>
+</div>
+<div th:replace="layout :: javascript">
+    JAVASCRIPT PLACEHOLDER
+</div>
+</body>
+</html>

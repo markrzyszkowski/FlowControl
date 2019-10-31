@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <title th:inline="text">[[${@applicationName}]] | Time</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/layout.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div th:replace="layout :: header">
+    NAVBAR PLACEHOLDER
+</div>
+<div class="container">
+    <div class="content">
+        <table class="table table-bordered table-striped">
+            <thead class="text-center">
+            <tr>
+                <th>Date</th>
+                <th>Hours</th>
+                <th>Overtime</th>
+                <th>Weekend</th>
+                <th>Holiday</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="timeCard : ${timeCards}">
+                <td th:text="${timeCard.date}" class="cell"></td>
+                <td th:text="${timeCard.hours}" class="cell"></td>
+                <td th:text="${timeCard.overtime}" class="cell"></td>
+                <td th:text="${timeCard.weekend}" class="cell"></td>
+                <td th:text="${timeCard.holiday}" class="cell"></td>
+                <td class="cell">
+                    <a th:href="@{/dashboard/time/delete/{id}(id=${timeCard.id})}">
+                        <img th:src="@{/images/delete.svg}" alt="delete">
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="text-center">
+            <a th:href="@{/dashboard/time(page=${timeCards.getNumber()},size=${param.size})}" class="btn btn-primary btn-nav" th:classappend="${timeCards.isFirst()} ? hidden">
+                <<<
+            </a>
+            <a th:href="@{/dashboard/time(page=${timeCards.getNumber() + 2},size=${param.size})}" class="btn btn-primary btn-nav" th:classappend="${timeCards.isLast()} ? hidden">
+                >>>
+            </a>
+        </div>
+        <div class="text-center">
+            <a th:href="@{/dashboard}" class="btn btn-secondary btn-nav">Back</a>
+        </div>
+    </div>
+</div>
+<div th:replace="layout :: javascript">
+    JAVASCRIPT PLACEHOLDER
+</div>
+</body>
+</html>

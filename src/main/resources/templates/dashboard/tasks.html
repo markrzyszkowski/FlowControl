@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <title th:inline="text">[[${@applicationName}]] | Tasks</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/layout.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div th:replace="layout :: header">
+    NAVBAR PLACEHOLDER
+</div>
+<div class="container">
+    <div th:if="${param.uploaded}" class="alert alert-success alert-dismissible fade show" role="alert">
+        File successfully uploaded
+        <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+    </div>
+    <div class="text-center">
+        <div class="form-check form-check-inline">
+            <input type="checkbox" class="form-check-input" id="completed">
+            <label for="completed" class="form-check-label">Show completed</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input type="checkbox" class="form-check-input" id="assignedToMe">
+            <label for="assignedToMe" class="form-check-label">Show only assigned to me</label>
+        </div>
+    </div>
+    <div class="content">
+        <table class="table table-bordered table-striped">
+            <thead class="text-center">
+            <tr>
+                <th>Name</th>
+                <th>State</th>
+                <th>Added by</th>
+                <th>Assigned to</th>
+                <th>Added on</th>
+                <th>Due date</th>
+                <th>Description</th>
+                <th>File</th>
+                <th colspan="2">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="task : ${tasks}">
+                <td th:text="${task.name}" class="cell"></td>
+                <td class="cell">
+                    <a th:href="@{/dashboard/tasks/state/{id}(id=${task.id})}" th:text="${task.state}"></a>
+                </td>
+                <td th:text="${task.author}" class="cell"></td>
+                <td th:text="${task.assignee}" class="cell"></td>
+                <td th:text="${task.created}" class="cell"></td>
+                <td th:text="${task.due}" class="cell"></td>
+                <td th:text="${task.description}" class="cell"></td>
+                <td class="cell">
+                    <a th:if="${task.link}" th:href="@{/dashboard/tasks/download/{filename}(filename=${task.link})}">
+                        <img th:src="@{/images/download.svg}" alt="download">
+                    </a>
+                    <a data-toggle="modal" data-target="#upload" th:data-id="${task.id}" th:data-name="${task.name}">
+                        <img th:src="@{/images/upload.svg}" alt="upload">
+                    </a>
+                </td>
+                <td class="cell">
+                    <a th:href="@{/dashboard/tasks/edit/{id}(id=${task.id})}">
+                        <img th:src="@{/images/edit.svg}" alt="edit">
+                    </a>
+                </td>
+                <td class="cell">
+                    <a th:href="@{/dashboard/tasks/delete/{id}(id=${task.id})}">
+                        <img th:src="@{/images/delete.svg}" alt="delete">
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="text-center">
+            <a th:href="@{/dashboard/tasks(page=${tasks.getNumber()},size=${param.size})}" class="btn btn-primary btn-nav" th:classappend="${tasks.isFirst()} ? hidden">
+                <<<
+            </a>
+            <a th:href="@{/dashboard/tasks(page=${tasks.getNumber() + 2},size=${param.size})}" class="btn btn-primary btn-nav" th:classappend="${tasks.isLast()} ? hidden">
+                >>>
+            </a>
+        </div>
+        <div class="text-center">
+            <a th:href="@{/dashboard}" class="btn btn-secondary btn-nav">Back</a>
+        </div>
+    </div>
+    <div tabindex="-1" role="dialog" class="modal fade" id="upload">
+        <div role="document" class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Upload document</h4>
+                    <button data-dismiss="modal" class="close"><span>&times;</span></button>
+                </div>
+                <form th:action="@{/dashboard/tasks/upload}" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <input type="hidden" name="id">
+                        <input type="hidden" name="name">
+                        <div class="form-group">
+                            <label for="file">File</label>
+                            <input type="file" name="file" class="form-control-file" id="file" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="layout :: javascript">
+    JAVASCRIPT PLACEHOLDER
+</div>
+<script th:src="@{/js/tasks.js}"></script>
+</body>
+</html>

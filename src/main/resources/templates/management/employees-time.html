@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <title th:inline="text">[[${@applicationName}]] | Management</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/layout.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div th:replace="layout :: header">
+    NAVBAR PLACEHOLDER
+</div>
+<div class="container">
+    <div class="content actions">
+        <button data-toggle="modal" data-target="#report" class="btn btn-dark btn-lg btn-block btn-action">
+            Generate salary report
+        </button>
+    </div>
+    <div class="content">
+        <table class="table table-bordered table-striped">
+            <thead class="text-center">
+            <tr>
+                <th>Date</th>
+                <th>Hours</th>
+                <th>Overtime</th>
+                <th>Weekend</th>
+                <th>Holiday</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="timeCard : ${timeCards}">
+                <td th:text="${timeCard.date}" class="cell"></td>
+                <td th:text="${timeCard.hours}" class="cell"></td>
+                <td th:text="${timeCard.overtime}" class="cell"></td>
+                <td th:text="${timeCard.weekend}" class="cell"></td>
+                <td th:text="${timeCard.holiday}" class="cell"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="text-center">
+            <a th:href="@{/management/time(id=${param.id},page=${timeCards.getNumber()},size=${param.size})}" class="btn btn-primary btn-nav" th:classappend="${timeCards.isFirst()} ? hidden">
+                <<<
+            </a>
+            <a th:href="@{/management/time(id=${param.id},page=${timeCards.getNumber() + 2},size=${param.size})}" class="btn btn-primary btn-nav" th:classappend="${timeCards.isLast()} ? hidden">
+                >>>
+            </a>
+        </div>
+        <div class="text-center">
+            <a th:href="@{/management/employees}" class="btn btn-secondary btn-nav">Back</a>
+        </div>
+    </div>
+    <div tabindex="-1" role="dialog" class="modal fade" id="report">
+        <div role="document" class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Generate salary report</h4>
+                    <button type="button" data-dismiss="modal" class="close"><span>&times;</span></button>
+                </div>
+                <form th:action="@{/management/report}" method="get" target="_blank">
+                    <div class="modal-body">
+                        <input type="hidden" name="id" th:value="${param.id}">
+                        <div class="form-group">
+                            <label for="date-from">From</label>
+                            <input type="date" name="from" class="form-control" id="date-from" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="date-to">To</label>
+                            <input type="date" name="to" class="form-control" id="date-to" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="base">Base hourly pay</label>
+                            <input type="number" step="0.01" min="0" name="base" class="form-control" id="base" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="overtime">Overtime ratio</label>
+                            <input type="number" step="0.01" min="1" value="1" name="overtime" class="form-control" id="overtime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="weekend">Weekend ratio</label>
+                            <input type="number" step="0.01" min="1" value="1" name="weekend" class="form-control" id="weekend" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="holiday">Holiday ratio</label>
+                            <input type="number" step="0.01" min="1" value="1" name="holiday" class="form-control" id="holiday" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Generate</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="layout :: javascript">
+    JAVASCRIPT PLACEHOLDER
+</div>
+</body>
+</html>
